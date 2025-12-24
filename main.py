@@ -27,8 +27,7 @@ MAX_FILE_BYTES = 3 * 1024 * 1024  # 3MB
 # --------------- config ---------------
 
 if not OPENAI_API_KEY:
-    print("Error: OPENAI_API_KEY environment variable not set", file=sys.stderr)
-    print("Please set it in a .env file or with: export OPENAI_API_KEY='your-api-key'", file=sys.stderr)
+    print("OPENAI_API_KEY environment variable not set", file=sys.stderr)
     sys.exit(1)
 
 client = OpenAI(api_key=OPENAI_API_KEY)
