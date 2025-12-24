@@ -1,0 +1,16 @@
+[project]
+name = "ai-file-renamer"
+version = "0.1.0"
+description = "AI-powered file renaming tool using OpenAI's API"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "ruff",
+    "pylint",
+    "beautysh",
+    "setuptools",
+    "openai",
+    "pillow",
+    "python-dotenv"
+]
+
