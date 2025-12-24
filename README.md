@@ -8,10 +8,6 @@ Right-click any file in Finder and use the Quick Action to rename it:
 
 <img width="443" alt="Quick Action in Finder context menu" src="https://github.com/user-attachments/assets/0e553cdf-e11f-480f-abca-b2bf2c45e49d">
 
-Easy setup with Automator:
-
-<img width="1009" alt="Automator workflow setup" src="https://github.com/user-attachments/assets/ce230abd-fdc5-4bc5-984f-c5343d2d9e54">
-
 **→ [See setup instructions below](#macos-automator-quick-action)**
 
 ## Features
@@ -31,16 +27,16 @@ make setup
 echo 'OPENAI_API_KEY=your-key-here' > .env
 
 # 3. Run it
-python main.py /path/to/file.pdf
+uv run python main.py /path/to/file.pdf
 ```
 
 ## Usage
 
 ```bash
-python main.py ~/Pictures/IMG_1234.jpg
+uv run python main.py ~/Pictures/IMG_1234.jpg
 # → Suggests: "golden_gate_bridge_sunset.jpg"
 
-python main.py ~/Downloads/document.pdf
+uv run python main.py ~/Downloads/document.pdf
 # → Suggests: "quarterly_sales_report_q4_2023.pdf"
 ```
 
@@ -53,11 +49,10 @@ OPENAI_MODEL=gpt-4o  # or gpt-5.2
 ## Development
 
 ```bash
-make setup   # Install dependencies
-make run     # Run script
-make lint    # Check code quality
-make tidy    # Format code
-make clean   # Clean environment
+make setup              # Install dependencies
+make lint               # Check code quality
+make tidy               # Format code
+make clean              # Clean environment
 ```
 
 ## Supported Files
@@ -69,6 +64,10 @@ make clean   # Clean environment
 **Limits:** Max 3MB file size. Images auto-resized to 1024px. Text truncated to 2000 chars.
 
 ## macOS Automator (Quick Action)
+
+Easy setup with Automator:
+
+<img width="1009" alt="Automator workflow setup" src="https://github.com/user-attachments/assets/ce230abd-fdc5-4bc5-984f-c5343d2d9e54">
 
 Create a Finder Quick Action to process selected files:
 1) Open Automator → new “Quick Action”.
