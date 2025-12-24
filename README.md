@@ -1,6 +1,6 @@
 # AI File Renamer
 
-A single-file script that uses OpenAI's API to analyze file content and suggest descriptive filenames.
+AI-powered file renaming tool with a macOS Finder Quick Action (Automator) for one-click use.
 
 ## Quick Action in MacOS Finder
 
