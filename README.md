@@ -55,3 +55,19 @@ make clean   # Clean environment
 **Documents:** PDF, Word, Excel, PowerPoint
 
 **Limits:** Max 3MB file size. Images auto-resized to 1024px. Text truncated to 2000 chars.
+
+## macOS Automator (Quick Action)
+
+Create a Finder Quick Action to process selected files:
+1) Open Automator → new “Quick Action”.
+2) Workflow receives current: `files or folders` in `Finder.app`. Pass input: `as arguments`.
+3) Add “Run Shell Script”, Shell: `/bin/bash`. Use this script:
+   ```bash
+   PROJECT="$HOME/AI-file-renamer"
+   SCRIPT="$PROJECT/main.py"
+
+   for f in "$@"; do
+     /opt/homebrew/bin/uv run --project "$PROJECT" "$SCRIPT" "$f"
+   done
+   ```
+4) Save as “AI File Renamer”.
