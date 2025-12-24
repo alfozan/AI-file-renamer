@@ -2,6 +2,18 @@
 
 A single-file script that uses OpenAI's API to analyze file content and suggest descriptive filenames.
 
+## Quick Action in MacOS Finder
+
+Right-click any file in Finder and use the Quick Action to rename it:
+
+<img width="443" alt="Quick Action in Finder context menu" src="https://github.com/user-attachments/assets/0e553cdf-e11f-480f-abca-b2bf2c45e49d">
+
+Easy setup with Automator:
+
+<img width="1009" alt="Automator workflow setup" src="https://github.com/user-attachments/assets/ce230abd-fdc5-4bc5-984f-c5343d2d9e54">
+
+**→ [See setup instructions below](#macos-automator-quick-action)**
+
 ## Features
 
 - Analyzes images, text files, PDFs, and Office documents
@@ -35,14 +47,14 @@ python main.py ~/Downloads/document.pdf
 **Configuration:** Create a `.env` file with:
 ```bash
 OPENAI_API_KEY=your-key-here
-OPENAI_MODEL=gpt-4o  # optional
+OPENAI_MODEL=gpt-4o  # or gpt-5.2
 ```
 
 ## Development
 
 ```bash
 make setup   # Install dependencies
-make run     # Run script (pass file with --)
+make run     # Run script
 make lint    # Check code quality
 make tidy    # Format code
 make clean   # Clean environment
