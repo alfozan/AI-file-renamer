@@ -8,7 +8,6 @@ Application entry point and core logic live in `main.py`. If additional shared m
 
 ## Build, Test, and Development Commands
 - `make setup` — provisions Python 3.13 via `uv`, creates `.venv`, installs and locks dependencies. Run after cloning or whenever dependencies change.
-- `make run` — executes `main.py` inside the managed virtualenv; use for manual smoke checks.
 - `make lint` — runs `ruff` autofixes then `pylint` with `.pylintrc`; address warnings immediately.
 - `make tidy` — formats Python, shell, and JSON files; prefer before commits to avoid noisy diffs.
 - `make clean` — removes virtualenv, lockfiles, caches; run before packaging or when state drifts.
