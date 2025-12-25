@@ -21,7 +21,6 @@ setup: clean
 	uv sync --upgrade
 	uv lock --upgrade
 
-	uv cache prune
 	@echo ">>> Python version..."
 	uv run python --version
 
