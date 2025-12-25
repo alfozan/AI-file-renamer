@@ -44,6 +44,8 @@ uv run python main.py ~/Downloads/document.pdf
 ```bash
 OPENAI_API_KEY=your-key-here
 OPENAI_MODEL=gpt-4o  # or gpt-5.2
+MAX_FILE_SIZE_MB=3   # Max file size in MB (default: 3)
+MAX_TEXT_CHARS=10000 # Max text characters to read (default: 10000)
 ```
 
 ## Development
@@ -61,7 +63,7 @@ make clean              # Clean environment
 **Text:** TXT, MD, code files, JSON, YAML, CSV  
 **Documents:** PDF, Word, Excel, PowerPoint
 
-**Limits:** Max 3MB file size. Images auto-resized to 1024px. Text truncated to 2000 chars.
+**Limits:** Max file size (default: 3MB, configurable via `MAX_FILE_SIZE_MB`). Images auto-resized to 1024px. Text truncated to 10000 chars (configurable via `MAX_TEXT_CHARS`).
 
 ## macOS Automator (Quick Action)
 

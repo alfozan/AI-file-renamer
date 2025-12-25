@@ -22,8 +22,9 @@ load_dotenv()
 # --------------- config ---------------
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+MAX_FILE_SIZE_MB = int(os.getenv("MAX_FILE_SIZE_MB", "3"))
+MAX_TEXT_CHARS = int(os.getenv("MAX_TEXT_CHARS", "10000"))
 DEFAULT_REQUESTS_TIMEOUT_SEC = 30
-MAX_FILE_MB = 3
 # --------------- config ---------------
 
 if not OPENAI_API_KEY:
@@ -78,14 +79,14 @@ def read_text_file(file_path: str) -> str:
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
-            # Limit content to avoid token limits (first 2000 characters)
-            return content[:2000] if len(content) > 2000 else content
+            # Limit content to avoid token limits
+            return content[:MAX_TEXT_CHARS] if len(content) > MAX_TEXT_CHARS else content
     except UnicodeDecodeError:
         # Try with different encoding
         try:
             with open(file_path, "r", encoding="latin1") as file:
                 content = file.read()
-                return content[:2000] if len(content) > 2000 else content
+                return content[:MAX_TEXT_CHARS] if len(content) > MAX_TEXT_CHARS else content
         except Exception:
             return "[Could not read file content - encoding issue]"
     except Exception as e:
@@ -183,7 +184,7 @@ def suggest_text_filename(file_path: str, current_filename: str) -> str:
                     "type": "input_text",
                     "text": (
                         f"Current extension: {file_extension or '[none]'}\n"
-                        f"File content preview (truncated to 2000 chars):\n{file_content}"
+                        f"File content preview (truncated to {MAX_TEXT_CHARS} chars):\n{file_content}"
                     ),
                 },
             ],
@@ -308,8 +309,8 @@ def rename_single_file(file_path: str) -> bool:
         print(f"Not a file: {file_path}", file=sys.stderr)
         return False
 
-    if target.stat().st_size > MAX_FILE_MB * 1024 * 1024:
-        print(f"File too large: {target.name} (max {MAX_FILE_MB}MB)", file=sys.stderr)
+    if target.stat().st_size > MAX_FILE_SIZE_MB * 1024 * 1024:
+        print(f"File too large: {target.name} (max {MAX_FILE_SIZE_MB}MB)", file=sys.stderr)
         return False
 
     file_name = target.name
