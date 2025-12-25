@@ -32,7 +32,7 @@ clean:
 
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type f -name "*.py[cod]" -delete
-	rm -rf .ruff_cache .pylint.d
+	rm -rf .ruff_cache
 
 run:
 	uv run python main.py
@@ -40,8 +40,8 @@ run:
 lint:
 	@echo ">>> Linting with Ruff..."
 	@uv run ruff check . --fix --no-cache
-	@echo ">>> Linting with Pylint..."
-	@uv run pylint --rcfile=.pylintrc .
+	@echo ">>> Type checking with ty..."
+	@uv run ty check
 
 tidy:
 	# Tidy Python, shell, and JSON files
