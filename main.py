@@ -23,7 +23,7 @@ load_dotenv()
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 DEFAULT_REQUESTS_TIMEOUT_SEC = 30
-MAX_FILE_BYTES = 3 * 1024 * 1024  # 3MB
+MAX_FILE_MB = 3
 # --------------- config ---------------
 
 if not OPENAI_API_KEY:
@@ -308,8 +308,8 @@ def rename_single_file(file_path: str) -> bool:
         print(f"Not a file: {file_path}", file=sys.stderr)
         return False
 
-    if target.stat().st_size > MAX_FILE_BYTES:
-        print(f"File too large: {target.name} (max {MAX_FILE_BYTES // (1024 * 1024)}MB)", file=sys.stderr)
+    if target.stat().st_size > MAX_FILE_MB * 1024 * 1024:
+        print(f"File too large: {target.name} (max {MAX_FILE_MB}MB)", file=sys.stderr)
         return False
 
     file_name = target.name
