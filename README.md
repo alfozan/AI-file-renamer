@@ -34,10 +34,10 @@ uv run python main.py /path/to/file.pdf
 
 ```bash
 uv run python main.py ~/Pictures/IMG_1234.jpg
-# → Suggests: "golden_gate_bridge_sunset.jpg"
+# → Suggests: "Golden Gate Bridge at Sunset.jpg"
 
 uv run python main.py ~/Downloads/document.pdf
-# → Suggests: "quarterly_sales_report_q4_2023.pdf"
+# → Suggests: "Quarterly Sales Report Q4 2023.pdf"
 ```
 
 **Configuration:** Create a `.env` file with:

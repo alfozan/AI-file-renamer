@@ -134,6 +134,7 @@ def suggest_image_filename(file_path: str, current_filename: str) -> str:
     prompt = (
         "Suggest a concise, descriptive base filename for this image. "
         "Return only the base filename (no extension). "
+        "Use natural spaces between words and normal capitalization when appropriate. "
         "Limit to 100 characters. "
     )
 
@@ -172,7 +173,9 @@ def suggest_text_filename(file_path: str, current_filename: str) -> str:
 
     prompt = (
         "Analyze the provided text content and propose a concise, descriptive base filename. "
-        "Return only the base filename (no extension). Limit to 100 characters. "
+        "Return only the base filename (no extension). "
+        "Use natural spaces between words and normal capitalization when appropriate. "
+        "Limit to 100 characters. "
     )
 
     payload = [
@@ -202,7 +205,7 @@ def suggest_text_filename(file_path: str, current_filename: str) -> str:
     if not content or not content.strip():
         print(f"[debug] empty model output for text. Raw response: {response}")
         raise RuntimeError("Model returned no filename")
-    base_name = content.strip()
+    base_name = content.strip().strip("\"'")
     return ensure_extension(base_name, file_extension)
 
 
@@ -217,6 +220,7 @@ def suggest_generic_filename(file_path: str, current_filename: str, mime: str, c
         "Suggest a concise, descriptive base filename for the uploaded file. "
         "Return only the base filename (no extension). "
         "Prefer human-friendly, specific names. "
+        "Use natural spaces between words and normal capitalization when appropriate. "
         "Limit to 100 characters. "
     )
 
