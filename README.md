@@ -4,7 +4,7 @@ AI-powered file renaming tool with a macOS Finder Quick Action (Automator) for o
 
 ## Quick Action in MacOS Finder
 
-Right-click any file in Finder and use the Quick Action to rename it:
+Right-click any file (or select multiple files) in Finder and use the Quick Action to rename them:
 
 <img width="443" alt="Quick Action in Finder context menu" src="https://github.com/user-attachments/assets/0e553cdf-e11f-480f-abca-b2bf2c45e49d">
 
