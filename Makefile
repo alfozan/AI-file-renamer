@@ -34,11 +34,9 @@ lint:
 	@uv run ty check
 
 tidy:
-	# Tidy Python, shell, and JSON files
+	# Tidy Python and JSON files
 	@echo ">>> Tidying Python files..."
 	@uv run ruff check --fix --extend-ignore ALL --select I001 . --no-cache
 	@uv run ruff format . --no-cache
-	@echo ">>> Tidying shell scripts..."
-	@find . -name '*.sh' -print0 | xargs -0 -r uv run beautysh --indent-size 2 --force-function-style fnpar
 	@echo ">>> Tidying JSON files..."
 	@find . -name '*.json' -print0 | xargs -0 -I {} uv run python -m json.tool --indent 4 {} {}

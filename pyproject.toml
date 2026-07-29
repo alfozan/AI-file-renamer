@@ -5,14 +5,17 @@ description = "AI-powered file renaming tool with a macOS Finder Quick Action (A
 readme = "README.md"
 requires-python = "==3.14.*"
 dependencies = [
-    "ruff",
-    "ty",
-    "beautysh",
-    "setuptools",
     "openai",
     "pillow",
     "pillow-heif",
+    "pydantic",
     "python-dotenv"
+]
+
+[dependency-groups]
+dev = [
+    "ruff",
+    "ty",
 ]
 
 # https://docs.astral.sh/ruff/configuration
