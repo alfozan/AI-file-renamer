@@ -2,7 +2,7 @@
 
 AI-powered file renaming tool with a macOS Finder Quick Action (Automator) for one-click use.
 
-## Quick Action in MacOS Finder
+## Quick Action in macOS Finder
 
 Right-click any file (or select multiple files) in Finder and use the Quick Action to rename them:
 
@@ -13,7 +13,6 @@ Right-click any file (or select multiple files) in Finder and use the Quick Acti
 ## Features
 
 - Analyzes images, text files, PDFs, and Office documents
-- Interactive confirmation before renaming
 - Safe operations with duplicate checks
 - Automatic image optimization to reduce API costs
 

@@ -324,12 +324,10 @@ def ensure_extension(base_name: str, ext: str) -> str:
 
 
 if __name__ == "__main__":
-    # get path from arguments
     if len(sys.argv) > 1 and sys.argv[1]:
         TARGET_PATH = sys.argv[1]
     else:
-        print("Usage:")
-        print("  python rename_file.py /path/to/your/file.ext")
+        print("Usage: python main.py /path/to/your/file.ext")
         sys.exit(1)
 
     print(f"Processing: {TARGET_PATH}")
