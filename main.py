@@ -160,7 +160,7 @@ def suggest_image_filename(file_path: str, current_filename: str) -> str:
 
     response = client.responses.create(
         model=OPENAI_MODEL,
-        input=payload,  # type: ignore[arg-type]
+        input=payload,  # ty: ignore[invalid-argument-type]
         max_output_tokens=200,
         top_p=1,
         timeout=DEFAULT_REQUESTS_TIMEOUT_SEC,
@@ -202,7 +202,7 @@ def suggest_text_filename(file_path: str, current_filename: str) -> str:
 
     response = client.responses.create(
         model=OPENAI_MODEL,
-        input=payload,  # type: ignore[arg-type]
+        input=payload,  # ty: ignore[invalid-argument-type]
         max_output_tokens=200,
         top_p=1,
         timeout=DEFAULT_REQUESTS_TIMEOUT_SEC,
@@ -254,7 +254,7 @@ def suggest_generic_filename(file_path: str, current_filename: str, mime: str, c
 
     response = client.responses.create(
         model=OPENAI_MODEL,
-        input=payload,  # type: ignore[arg-type]
+        input=payload,  # ty: ignore[invalid-argument-type]
         max_output_tokens=200,
         top_p=1,
         timeout=DEFAULT_REQUESTS_TIMEOUT_SEC,
