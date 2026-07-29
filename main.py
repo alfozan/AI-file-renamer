@@ -35,6 +35,12 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 def image_base64_encode(file_path: str) -> str:
+    if Path(file_path).suffix.lower() == ".heic":
+        # Load HEIC support only when needed.
+        from pillow_heif import register_heif_opener
+
+        register_heif_opener()
+
     # Open the image
     image = Image.open(file_path)
 

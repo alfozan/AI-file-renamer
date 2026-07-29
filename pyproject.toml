@@ -11,6 +11,7 @@ dependencies = [
     "setuptools",
     "openai",
     "pillow",
+    "pillow-heif",
     "python-dotenv"
 ]
 
