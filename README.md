@@ -43,8 +43,7 @@ uv run python main.py ~/Downloads/document.pdf
 ```bash
 OPENAI_API_KEY=your-key-here
 OPENAI_MODEL=gpt-5.6-luna
-MAX_FILE_SIZE_MB=3   # Max non-image file size in MB (default: 3)
-MAX_TEXT_CHARS=10000 # Max text characters to read (default: 10000)
+MAX_FILE_SIZE_MB=5 # File-size limit and image resize trigger in MB (default: 5)
 ```
 
 ## Development
@@ -58,11 +57,11 @@ make clean              # Clean environment
 
 ## Supported Files
 
-**Images:** JPG, PNG, GIF, HEIC, WebP, TIFF  
+**Images:** JPG, PNG, GIF, HEIC/HEIF, WebP, TIFF
 **Text:** TXT, MD, code files, JSON, YAML, CSV  
 **Documents:** PDF, Word, Excel, PowerPoint
 
-**Limits:** Non-image files are limited to 3MB by default (configurable via `MAX_FILE_SIZE_MB`). Images auto-resize to 1024px before upload. Text is truncated to 10000 chars (configurable via `MAX_TEXT_CHARS`).
+**Limits:** Non-image files are limited to 5MB by default (configurable via `MAX_FILE_SIZE_MB`). Supported JPG, PNG, and WebP images up to that limit are uploaded unchanged. Larger images are resized to a maximum width or height of 2048px. Other image formats are converted to PNG or JPEG for API compatibility. Text is truncated to 30000 characters.
 
 ## macOS Automator (Quick Action)
 

@@ -24,8 +24,9 @@ load_dotenv()
 # --------------- config ---------------
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5.6-luna")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-MAX_FILE_SIZE_MB = int(os.getenv("MAX_FILE_SIZE_MB", "3"))
-MAX_TEXT_CHARS = int(os.getenv("MAX_TEXT_CHARS", "10000"))
+MAX_FILE_SIZE_MB = int(os.getenv("MAX_FILE_SIZE_MB", "5"))
+MAX_IMAGE_DIMENSION = 2048
+MAX_TEXT_CHARS = 30_000
 DEFAULT_REQUESTS_TIMEOUT_SEC = 30
 # --------------- config ---------------
 
@@ -52,36 +53,62 @@ if not OPENAI_API_KEY:
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 
+def encode_image(image: Image.Image) -> tuple[bytes, str]:
+    has_alpha = "A" in image.getbands() or "transparency" in image.info
+    image_format = "PNG" if has_alpha else "JPEG"
+    image = image.convert("RGBA" if has_alpha else "RGB")
+
+    buffered = BytesIO()
+    if image_format == "JPEG":
+        image.save(buffered, format=image_format, quality=85, optimize=True)
+    else:
+        image.save(buffered, format=image_format, optimize=True)
+    return buffered.getvalue(), f"image/{image_format.lower()}"
+
+
 def image_base64_encode(file_path: Path) -> tuple[str, str]:
-    if file_path.suffix.lower() == ".heic":
+    extension = file_path.suffix.lower()
+    supported_image_formats = {
+        "GIF": "image/gif",
+        "JPEG": "image/jpeg",
+        "PNG": "image/png",
+        "WEBP": "image/webp",
+    }
+    resize_threshold = MAX_FILE_SIZE_MB * 1024 * 1024
+    is_large = file_path.stat().st_size > resize_threshold
+
+    if extension in {".heic", ".heif"}:
         # Load HEIC support only when needed.
         from pillow_heif import register_heif_opener
 
         register_heif_opener()
 
     with Image.open(file_path) as image:
+        image_format = image.format or ""
+        is_animated = getattr(image, "is_animated", False)
+        if image_format in supported_image_formats and not is_large and not is_animated:
+            encoded = base64.b64encode(file_path.read_bytes()).decode("utf-8")
+            return encoded, supported_image_formats[image_format]
+
         original_size = image.size
-        image.thumbnail((1024, 1024), Image.Resampling.LANCZOS)
+        if is_large:
+            image.thumbnail((MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION), Image.Resampling.LANCZOS)
+        image_bytes, image_mime = encode_image(image)
+        while len(image_bytes) > resize_threshold and max(image.size) > 512:
+            scale = min(0.9, (resize_threshold / len(image_bytes)) ** 0.5 * 0.95)
+            image = image.resize(
+                (max(1, int(image.width * scale)), max(1, int(image.height * scale))),
+                Image.Resampling.LANCZOS,
+            )
+            image_bytes, image_mime = encode_image(image)
+
         if image.size != original_size:
             print(
                 f"Original image size: {original_size[0]}x{original_size[1]}, resized to: {image.width}x{image.height}"
             )
 
-        if image.mode == "RGBA":
-            image_format = "PNG"
-        else:
-            image_format = "JPEG"
-            if image.mode != "RGB":
-                image = image.convert("RGB")
-
-        buffered = BytesIO()
-        if image_format == "JPEG":
-            image.save(buffered, format=image_format, quality=85, optimize=True)
-        else:
-            image.save(buffered, format=image_format, optimize=True)
-
-    encoded = base64.b64encode(buffered.getvalue()).decode("utf-8")
-    return encoded, f"image/{image_format.lower()}"
+    encoded = base64.b64encode(image_bytes).decode("utf-8")
+    return encoded, image_mime
 
 
 def read_text_file(file_path: Path) -> str:
@@ -206,7 +233,18 @@ def suggest_document_filename(file_path: Path, mime: str) -> str:
 
 
 # Supported file extensions
-IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".heic"]
+IMAGE_EXTENSIONS = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".bmp",
+    ".tif",
+    ".tiff",
+    ".webp",
+    ".heic",
+    ".heif",
+]
 TEXT_EXTENSIONS = [
     ".txt",
     ".md",
